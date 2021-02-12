@@ -3,6 +3,7 @@
 window.addEventListener("DOMContentLoaded", start);
 
 const allAnimals = [];
+let animal;
 
 function start() {
   console.log("ready");
@@ -23,34 +24,23 @@ function loadJSON() {
 function prepareObjects(jsonData) {
   jsonData.forEach((jsonObject) => {
     // TODO: Create new object with cleaned data - and store that in the allAnimals array
-
-    const firstSpace = jsonObject.fullname.indexOf(" ");
-    const lastSpace = jsonObject.fullname.lastIndexOf(" ");
-    // const middleSpace = jsonObject.fullname.indexOf(firstSpace, " ");
-    const nameAnimal = jsonObject.fullname.substring(0, firstSpace).trim();
-    const type = jsonObject.fullname.substring(lastSpace).trim();
-    // const description = jsonObject.fullname
-    //   .substring(middleSpace, lastSpace)
-    //   .trim();
-    const age = jsonObject.age;
-
-    const animal = {
-      name: nameAnimal,
-      //   desc: description, MANGLER!!
-      type: type,
-      age: age,
+    const splitFullName = jsonObject.fullname.split(" ");
+    animal = {
+      name: splitFullName[0],
+      type: splitFullName[3],
+      desc: splitFullName[2],
+      age: jsonObject.age,
     };
-    console.log(animal);
-
     allAnimals.name = animal.name;
     allAnimals.type = animal.type;
-    // allAnimals.desc = animal.description;
+    allAnimals.desc = animal.description;
     allAnimals.age = animal.age;
 
     allAnimals.push(animal);
     delete allAnimals.fullname;
+    delete allAnimals.age;
 
-    // TODO: MISSING CODE HERE !!!
+    console.log(animal);
   });
 
   displayList();
@@ -72,10 +62,17 @@ function displayAnimal(animal) {
 
   // set clone data
   clone.querySelector("[data-field=name]").textContent = animal.name;
-  // clone.querySelector("[data-field=desc]").textContent = animal.desc;
+  clone.querySelector("[data-field=desc]").textContent = animal.desc;
   clone.querySelector("[data-field=type]").textContent = animal.type;
-  clone.querySelector("[data-field=age]").textContent = animal.age;
+  clone.querySelector("[data-field=age]").textContent =
+    animal.age + " years old";
 
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
 }
+
+// const firstSpace = jsonObject.fullname.indexOf(" ");
+// const lastSpace = jsonObject.fullname.lastIndexOf(" ");
+// // const middleSpace = jsonObject.fullname.indexOf(firstSpace, " ");
+// const nameAnimal = jsonObject.fullname.substring(0, firstSpace).trim();
+// const type = jsonObject.fullname.substring(lastSpace).trim();
