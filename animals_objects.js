@@ -3,7 +3,14 @@
 window.addEventListener("DOMContentLoaded", start);
 
 const allAnimals = [];
-let animal;
+const Animal = {
+  name: "",
+  type: "",
+  desc: "",
+  age: 0,
+};
+
+console.log(Animal);
 
 function start() {
   console.log("ready");
@@ -24,23 +31,26 @@ function loadJSON() {
 function prepareObjects(jsonData) {
   jsonData.forEach((jsonObject) => {
     // TODO: Create new object with cleaned data - and store that in the allAnimals array
+
     const splitFullName = jsonObject.fullname.split(" ");
-    animal = {
-      name: splitFullName[0],
-      type: splitFullName[3],
-      desc: splitFullName[2],
-      age: jsonObject.age,
-    };
-    allAnimals.name = animal.name;
-    allAnimals.type = animal.type;
-    allAnimals.desc = animal.description;
-    allAnimals.age = animal.age;
+    const firstSpace = jsonObject.fullname.indexOf(" ");
+    const lastSpace = jsonObject.fullname.lastIndexOf(" ");
 
-    allAnimals.push(animal);
-    delete allAnimals.fullname;
-    delete allAnimals.age;
+    const typeCapitalized =
+      splitFullName[3].substring(0, 1).toUpperCase() +
+      splitFullName[3].substring(1, firstSpace).toLowerCase();
 
-    console.log(animal);
+    const descCapitalized =
+      splitFullName[2].substring(0, 1).toUpperCase() +
+      splitFullName[2].substring(1, lastSpace).toLowerCase();
+
+    const oneAnimal = Object.create(Animal);
+    oneAnimal.name = splitFullName[0].trim();
+    oneAnimal.type = typeCapitalized;
+    oneAnimal.desc = descCapitalized;
+    oneAnimal.age = jsonObject.age;
+    allAnimals.push(oneAnimal);
+    console.log(oneAnimal);
   });
 
   displayList();
@@ -70,9 +80,3 @@ function displayAnimal(animal) {
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
 }
-
-// const firstSpace = jsonObject.fullname.indexOf(" ");
-// const lastSpace = jsonObject.fullname.lastIndexOf(" ");
-// // const middleSpace = jsonObject.fullname.indexOf(firstSpace, " ");
-// const nameAnimal = jsonObject.fullname.substring(0, firstSpace).trim();
-// const type = jsonObject.fullname.substring(lastSpace).trim();
