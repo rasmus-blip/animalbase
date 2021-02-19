@@ -22,5 +22,10 @@
     {
         "fullname": "Horsey the horsing horse",
         "age": 10
+    },
+
+    {
+        "fullname": "Pelle the red dog", 
+        "age": "dead :'("
     }
 ]
